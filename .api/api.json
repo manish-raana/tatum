@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "tatumdocs",
+      "source": "@tatumdocs/v1.2#eryeflywtrjny",
+      "integrity": "sha512-Doalk7nkqDfarhiW2t5YrfuZ1QYLJK7EwDhM3lJ38QoAxkCFwDh76f90YKld+U895I2zohHs7VyCxXfNqzo6mg==",
+      "installerVersion": "6.1.2"
+    }
+  ]
+}

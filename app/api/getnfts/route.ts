@@ -1,13 +1,19 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import tatumdocs from "@api/tatumdocs";
+import { NFTChain } from "@/enums/Chain";
 
-// To handle a GET request to /api
-export async function GET(request:any) {
-  // Do whatever you want
-  return NextResponse.json({ message: "Hello World" }, { status: 200 });
-}
-
-// To handle a POST request to /api
-export async function POST(request:any) {
-  // Do whatever you want
-  return NextResponse.json({ message: "Hello World" }, { status: 200 });
+export async function GET(request: NextRequest) {
+  tatumdocs.auth(process.env.API_KEY || "");
+  try {
+    const { searchParams } = new URL(request.url);
+    if (!searchParams.has("chain") || !searchParams.has("addresses") || searchParams.get("addresses") === "") {
+      return NextResponse.json({ error: "Missing required parameters." }, { status: 400 });
+    }
+    const chain: NFTChain = searchParams.get("chain") as NFTChain;
+    const addresses = searchParams.get("addresses");
+    const response = await tatumdocs.getCollectionsV4({ chain: chain, collectionAddresses: addresses!, tokenTypes: "nft" });
+    return NextResponse.json(response?.data, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json(error);
+  }
 }
